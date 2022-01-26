@@ -16,5 +16,5 @@
             text-align: center;
         }
     </style>
-    <a href="/">На главную</a>
+    <a href="/"><@spring.messageText "toMainPage" "To main page"></@spring.messageText></a>
 </@common.page>

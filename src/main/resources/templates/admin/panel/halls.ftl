@@ -1,11 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<a href="/">На главную</a>
-Кинозалы
-</body>
-</html>
+<#import "/spring.ftl" as spring/>
+<#import "../../macros/common.ftl" as common>
+<@common.page>
+<a href="/"><@spring.messageText "toMainPage" "To main page"></@spring.messageText></a>
+    <div>
+        <@spring.messageText "cinemaHall" "Cinema halls"></@spring.messageText>
+    </div>
+</@common.page>
