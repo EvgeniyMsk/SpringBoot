@@ -12,7 +12,7 @@
 
 <a href="/">На главную</a>
 <div>
-    ${user}
+<#--    ${user}-->
 </div>
 </body>
 </html>

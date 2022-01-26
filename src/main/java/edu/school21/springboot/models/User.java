@@ -1,6 +1,8 @@
 package edu.school21.springboot.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import edu.school21.springboot.models.roles.ERole;
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,6 +12,7 @@ import java.util.*;
 
 @Entity
 @Table(name = "usr")
+@Data
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,11 +25,17 @@ public class User implements UserDetails {
     private Set<ERole> roles;
 
     public User() {
+        Set<ERole> roleSet = new HashSet<>();
+        roleSet.add(ERole.ROLE_USER);
+        roles = roleSet;
     }
 
     public User(String username, String password) {
         this.username = username;
         this.password = password;
+        Set<ERole> roleSet = new HashSet<>();
+        roleSet.add(ERole.ROLE_USER);
+        roles = roleSet;
     }
 
     @Override

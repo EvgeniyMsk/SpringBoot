@@ -1,11 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Фильмы</title>
-</head>
-<body>
+<#import "../../macros/common.ftl" as c>
+<@c.page>
 <a href="/">На главную</a>
-Фильмы
-</body>
-</html>
+</@c.page>
