@@ -7,9 +7,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class AdminController {
-    @Autowired
-    private UserService userService;
-
     @GetMapping("/admin/panel/halls")
     public String halls() {
         return "admin/panel/halls";

@@ -31,15 +31,17 @@ public class UserService implements UserDetailsService {
         return temp;
     }
 
+    public User getUserByFirstname(String firstname) {
+        return usersRepository.findUserByFirstname(firstname);
+    }
+
     public boolean createUser(User user) {
-        if (usersRepository.findUserByFirstname(user.getUsername()) != null)
-            return false;
         Set<ERole> roles = new HashSet<>();
         roles.add(ERole.ROLE_USER);
         user.setRoles(roles);
         String message = String.format(
                 "Hello, %s! \n" +
-                        "Welcome to SpringBoot-School21 portal! Please visit next link:" +
+                        "Welcome to SpringBoot-School21 portal! Please visit next link: \n" +
                         "http://localhost:8080/confirm/%s", user.getUsername(), user.getActivationCode()
         );
         mailSender.send(user.getEmail(), "Activation code", message);

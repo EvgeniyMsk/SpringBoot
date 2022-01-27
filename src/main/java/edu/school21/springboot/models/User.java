@@ -2,6 +2,7 @@ package edu.school21.springboot.models;
 
 import edu.school21.springboot.models.roles.ERole;
 import edu.school21.springboot.validation.ValidPassword;
+import edu.school21.springboot.validation.ValidUsername;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -21,6 +22,7 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotEmpty(message = "{user.firstname.notempty}")
+    @ValidUsername
     private String firstname;
     @NotEmpty(message = "{user.lastname.notempty}")
     private String lastname;
@@ -31,6 +33,8 @@ public class User implements UserDetails {
     private String phone;
     @ValidPassword
     private String password;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.MERGE, fetch = FetchType.EAGER, orphanRemoval = true)
+    private List<AuthHistory> authHistory;
     @ElementCollection(targetClass = ERole.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
