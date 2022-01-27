@@ -15,6 +15,8 @@ import java.util.Set;
 @Service
 public class UserService implements UserDetailsService {
     private final UsersRepository usersRepository;
+    @Autowired
+    private MailSender mailSender;
 
     @Autowired
     public UserService(UsersRepository usersRepository) {
@@ -35,6 +37,22 @@ public class UserService implements UserDetailsService {
         Set<ERole> roles = new HashSet<>();
         roles.add(ERole.ROLE_USER);
         user.setRoles(roles);
+        String message = String.format(
+                "Hello, %s! \n" +
+                        "Welcome to SpringBoot-School21 portal! Please visit next link:" +
+                        "http://localhost:8080/confirm/%s", user.getUsername(), user.getActivationCode()
+        );
+        mailSender.send(user.getEmail(), "Activation code", message);
+        usersRepository.saveAndFlush(user);
+        return true;
+    }
+
+    public boolean confirmUser(String code) {
+        User user = usersRepository.findUserByActivationCode(code);
+        if (user == null)
+            return false;
+        user.setActivationCode(null);
+        user.setConfirmed(true);
         usersRepository.saveAndFlush(user);
         return true;
     }

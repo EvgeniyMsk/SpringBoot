@@ -2,9 +2,11 @@
 <#import "../macros/common.ftl" as common>
 <@common.page>
     <a href="/"><@spring.messageText "toMainPage" "To main page"></@spring.messageText></a>
+    <#if message??><p>${message}</p></#if>
+
     <fieldset>
         <form method="post" action="/signIn">
-            <label for="username"><@spring.messageText "username" "Username"></@spring.messageText></label>
+            <label for="username"><@spring.messageText "firstname" "Firstname"></@spring.messageText></label>
             <input type="text" name="username" id="username">
             <label for="password"><@spring.messageText "password" "Password"></@spring.messageText></label>
             <input type="password" name="password" id="password">

@@ -27,7 +27,6 @@ public class User implements UserDetails {
     @NotEmpty(message = "{user.validation.email.notempty}")
     @Email(message = "{user.validation.email}")
     private String email;
-//    @NotEmpty(message = "{user.phone.notempty}")
     @Pattern(regexp = "^\\+[0-9]{1,3}\\([0-9]{1,3}\\)[0-9]{6}$", message = "{user.phone.format}")
     private String phone;
     @ValidPassword
@@ -36,11 +35,14 @@ public class User implements UserDetails {
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
     private Set<ERole> roles;
+    private boolean isConfirmed;
+    private String activationCode;
 
     public User() {
         Set<ERole> roleSet = new HashSet<>();
         roleSet.add(ERole.ROLE_USER);
-        roles = roleSet;
+        this.roles = roleSet;
+        this.activationCode = UUID.randomUUID().toString();
     }
 
     public User(String username, String password) {
@@ -48,7 +50,8 @@ public class User implements UserDetails {
         this.password = password;
         Set<ERole> roleSet = new HashSet<>();
         roleSet.add(ERole.ROLE_USER);
-        roles = roleSet;
+        this.roles = roleSet;
+        this.activationCode = UUID.randomUUID().toString();
     }
 
     @Override

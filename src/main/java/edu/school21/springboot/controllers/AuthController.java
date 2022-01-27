@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -47,5 +48,14 @@ public class AuthController {
     @GetMapping("/denied")
     public String denied() {
         return "auth/denied";
+    }
+
+    @GetMapping("/confirm/{code}")
+    public String confirm(Model model, @PathVariable("code") String code) {
+        if (userService.confirmUser(code))
+            model.addAttribute("message", "Активация произведена!");
+        else
+            model.addAttribute("message", "Ошибка активации!");
+        return "/auth/login";
     }
 }
