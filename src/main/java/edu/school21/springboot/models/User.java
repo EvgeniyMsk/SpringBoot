@@ -1,13 +1,16 @@
 package edu.school21.springboot.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import edu.school21.springboot.models.roles.ERole;
+import edu.school21.springboot.validation.ValidPassword;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
 import java.util.*;
 
 @Entity
@@ -17,7 +20,17 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String username;
+    @NotEmpty(message = "{user.firstname.notempty}")
+    private String firstname;
+    @NotEmpty(message = "{user.lastname.notempty}")
+    private String lastname;
+    @NotEmpty(message = "{user.validation.email.notempty}")
+    @Email(message = "{user.validation.email}")
+    private String email;
+//    @NotEmpty(message = "{user.phone.notempty}")
+    @Pattern(regexp = "^\\+[0-9]{1,3}\\([0-9]{1,3}\\)[0-9]{6}$", message = "{user.phone.format}")
+    private String phone;
+    @ValidPassword
     private String password;
     @ElementCollection(targetClass = ERole.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
@@ -31,7 +44,7 @@ public class User implements UserDetails {
     }
 
     public User(String username, String password) {
-        this.username = username;
+        this.firstname = username;
         this.password = password;
         Set<ERole> roleSet = new HashSet<>();
         roleSet.add(ERole.ROLE_USER);
@@ -53,7 +66,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return username;
+        return firstname;
     }
 
     @Override

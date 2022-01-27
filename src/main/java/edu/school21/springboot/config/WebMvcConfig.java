@@ -1,9 +1,7 @@
 package edu.school21.springboot.config;
 
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -16,8 +14,6 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import java.util.Locale;
 
 @Configuration
-@EnableWebMvc
-@ComponentScan("edu.school21.springboot")
 public class WebMvcConfig implements WebMvcConfigurer {
 
     @Override

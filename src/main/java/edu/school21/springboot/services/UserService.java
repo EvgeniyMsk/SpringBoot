@@ -23,14 +23,14 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User temp = usersRepository.findUserByUsername(username);
+        User temp = usersRepository.findUserByFirstname(username);
         if (temp == null)
             throw new UsernameNotFoundException("User not found");
         return temp;
     }
 
     public boolean createUser(User user) {
-        if (usersRepository.findUserByUsername(user.getUsername()) != null)
+        if (usersRepository.findUserByFirstname(user.getUsername()) != null)
             return false;
         Set<ERole> roles = new HashSet<>();
         roles.add(ERole.ROLE_USER);

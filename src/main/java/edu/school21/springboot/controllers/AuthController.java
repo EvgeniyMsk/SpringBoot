@@ -6,7 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 
 @Controller
@@ -25,14 +28,17 @@ public class AuthController {
     }
 
     @GetMapping("/signUp")
-    public String register() {
+    public String register(@ModelAttribute("user") User user) {
         return "auth/register";
     }
 
 
     @PostMapping("/signUp")
-    public String signUp(User user) {
-        if (userService.createUser(user))
+    public String signUp(@ModelAttribute("user") @Valid User user, BindingResult bindingResult) {
+        if (bindingResult.hasErrors())
+            return "auth/register";
+        else
+            if (userService.createUser(user))
             return "redirect:/profile";
         else
             return "redirect:/register";
