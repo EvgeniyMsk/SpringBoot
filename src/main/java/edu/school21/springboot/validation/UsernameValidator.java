@@ -19,9 +19,6 @@ public class UsernameValidator implements ConstraintValidator<ValidUsername, Str
 
     @Override
     public boolean isValid(String s, ConstraintValidatorContext constraintValidatorContext) {
-        if (s == null || s.equals(""))
-            return false;
-        User user = userService.getUserByFirstname("admin");
         return userService.getUserByFirstname(s) == null;
     }
 }

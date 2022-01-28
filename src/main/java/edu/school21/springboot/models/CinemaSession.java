@@ -16,10 +16,10 @@ public class CinemaSession {
     private Long id;
     private LocalDateTime date;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST})
+    @ManyToOne(cascade = {CascadeType.ALL})
     private MovieHall movieHall;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST})
+    @ManyToOne(cascade = {CascadeType.ALL})
     private Movie movie;
     private int ticketCost;
 
@@ -28,5 +28,13 @@ public class CinemaSession {
         this.movie = movie;
         this.date = date;
         this.ticketCost = ticketCost;
+    }
+
+    public String getDateHtml() {
+        return date.toString().replace('T', ' ');
+    }
+
+    public String getDateToEdit() {
+        return date.toString();
     }
 }

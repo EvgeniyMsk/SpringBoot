@@ -16,7 +16,6 @@ import java.util.*;
 
 @Entity
 @Table(name = "usr")
-@Data
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,6 +46,7 @@ public class User implements UserDetails {
         roleSet.add(ERole.ROLE_USER);
         this.roles = roleSet;
         this.activationCode = UUID.randomUUID().toString();
+        this.authHistory = new ArrayList<>();
     }
 
     public User(String username, String password) {
@@ -56,6 +56,7 @@ public class User implements UserDetails {
         roleSet.add(ERole.ROLE_USER);
         this.roles = roleSet;
         this.activationCode = UUID.randomUUID().toString();
+        this.authHistory = new ArrayList<>();
     }
 
     @Override
@@ -64,6 +65,22 @@ public class User implements UserDetails {
         for (ERole role : roles)
             authorities.add(new SimpleGrantedAuthority(role.toString()));
         return authorities;
+    }
+
+    public List<AuthHistory> getAuthHistory() {
+        return authHistory;
+    }
+
+    public void setAuthHistory(List<AuthHistory> authHistory) {
+        this.authHistory = authHistory;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     @Override
@@ -102,5 +119,57 @@ public class User implements UserDetails {
 
     public void setRoles(Set<ERole> roles) {
         this.roles = roles;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public boolean isConfirmed() {
+        return isConfirmed;
+    }
+
+    public void setConfirmed(boolean confirmed) {
+        isConfirmed = confirmed;
+    }
+
+    public String getActivationCode() {
+        return activationCode;
+    }
+
+    public void setActivationCode(String activationCode) {
+        this.activationCode = activationCode;
+    }
+
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

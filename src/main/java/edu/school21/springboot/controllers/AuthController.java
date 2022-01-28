@@ -3,15 +3,12 @@ package edu.school21.springboot.controllers;
 import edu.school21.springboot.models.User;
 import edu.school21.springboot.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-
 
 @Controller
 public class AuthController {
@@ -35,14 +32,15 @@ public class AuthController {
 
 
     @PostMapping("/signUp")
-    public String signUp(@ModelAttribute("user") @Valid User user, BindingResult bindingResult) {
+    public String signUp(@ModelAttribute("user") @Valid User user, BindingResult bindingResult, HttpServletRequest request) {
         if (bindingResult.hasErrors())
             return "auth/register";
-        else
-            if (userService.createUser(user))
-            return "redirect:/profile";
-        else
-            return "redirect:/register";
+        else {
+            if (userService.createUser(user, request.getRemoteAddr()))
+                return "redirect:/profile";
+            else
+                return "redirect:/register";
+        }
     }
 
     @GetMapping("/denied")

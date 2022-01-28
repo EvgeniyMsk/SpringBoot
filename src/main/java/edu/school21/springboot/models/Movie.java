@@ -21,21 +21,35 @@ public class Movie {
     private String description;
     public String posterUrl;
     private boolean hasImage;
-    @OneToMany(mappedBy = "movie",cascade = CascadeType.MERGE, fetch = FetchType.EAGER, orphanRemoval = true)
+    @OneToMany(mappedBy = "movie",cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<CinemaSession> sessions;
-    @OneToMany(mappedBy = "movie", cascade = CascadeType.MERGE, orphanRemoval = true)
+    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<ChatMessage> messages;
 
     public Movie() {
         this.hasImage = false;
     }
+
     public Movie(String title, Date dateOfRelease, int restrictions, String description) {
         this.title = title;
         this.dateOfRelease = dateOfRelease;
         this.restrictions = restrictions;
         this.description = description;
         this.sessions = new ArrayList<>();
+    }
+
+    public String formatDate() {
+        return dateOfRelease.toString().split(" ")[0];
+    }
+
+    public void addChatMessage(String content, String sender) {
+        ChatMessage chatMessage = new ChatMessage();
+        chatMessage.setType(ChatMessage.MessageType.CHAT);
+        chatMessage.setMovie(this);
+        chatMessage.setContent(content);
+        chatMessage.setSender(sender);
+        messages.add(chatMessage);
     }
 }

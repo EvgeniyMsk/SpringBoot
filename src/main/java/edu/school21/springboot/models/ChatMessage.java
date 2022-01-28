@@ -15,7 +15,7 @@ public class ChatMessage {
     private MessageType type;
     private String content;
     private String sender;
-    @ManyToOne(cascade = {CascadeType.PERSIST})
+    @ManyToOne(cascade = {CascadeType.DETACH})
     @JsonIgnoreProperties({"dateOfRelease", "description", "restrictions", "posterUrl", "hasImage"})
     private Movie movie;
     public enum MessageType {

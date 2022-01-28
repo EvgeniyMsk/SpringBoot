@@ -1,5 +1,6 @@
 package edu.school21.springboot.services;
 
+import edu.school21.springboot.models.AuthHistory;
 import edu.school21.springboot.models.User;
 import edu.school21.springboot.models.roles.ERole;
 import edu.school21.springboot.repositories.UsersRepository;
@@ -9,8 +10,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -35,7 +35,7 @@ public class UserService implements UserDetailsService {
         return usersRepository.findUserByFirstname(firstname);
     }
 
-    public boolean createUser(User user) {
+    public boolean createUser(User user, String address) {
         Set<ERole> roles = new HashSet<>();
         roles.add(ERole.ROLE_USER);
         user.setRoles(roles);
@@ -46,6 +46,9 @@ public class UserService implements UserDetailsService {
         );
         mailSender.send(user.getEmail(), "Activation code", message);
         usersRepository.saveAndFlush(user);
+        User temp = usersRepository.findUserByFirstname(user.getFirstname());
+        temp.getAuthHistory().add(new AuthHistory(user, "register", new Date().toString(), address));
+        usersRepository.saveAndFlush(temp);
         return true;
     }
 
@@ -58,4 +61,17 @@ public class UserService implements UserDetailsService {
         usersRepository.saveAndFlush(user);
         return true;
     }
+
+    public List<User> getAll() {
+        return usersRepository.findAll();
+    }
+
+    public User getUserById(Long id) {
+        return usersRepository.findUserById(id);
+    }
+
+    public void updateUser(User user) {
+        usersRepository.saveAndFlush(user);
+    }
+    
 }

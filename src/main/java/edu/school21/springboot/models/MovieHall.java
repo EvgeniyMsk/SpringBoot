@@ -18,6 +18,10 @@ public class MovieHall {
     private Long id;
     private int seatsCount;
     @JsonIgnore
-    @OneToMany(mappedBy = "movieHall", cascade = CascadeType.MERGE, fetch = FetchType.EAGER, orphanRemoval = true)
+    @OneToMany(mappedBy = "movieHall", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CinemaSession> sessionList;
+
+    public MovieHall(int seatsCount) {
+        this.seatsCount = seatsCount;
+    }
 }

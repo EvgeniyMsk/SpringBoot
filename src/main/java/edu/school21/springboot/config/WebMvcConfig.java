@@ -1,10 +1,10 @@
 package edu.school21.springboot.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.web.servlet.LocaleResolver;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -15,6 +15,14 @@ import java.util.Locale;
 
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
+    @Value("${uploadPath}")
+    private String path;
+
+    @Value("${avatarPath}")
+    private String avatarPath;
+
+    @Value("${messagesCount}")
+    private int messagesCount;
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -48,5 +56,20 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(localeChangeInterceptor());
+    }
+
+    @Bean
+    public String uploadPath() {
+        return path;
+    }
+
+    @Bean
+    public String avatarPath() {
+        return avatarPath;
+    }
+
+    @Bean
+    public int messagesCount() {
+        return messagesCount;
     }
 }
