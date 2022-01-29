@@ -47,7 +47,7 @@ public class UserService implements UserDetailsService {
         mailSender.send(user.getEmail(), "Activation code", message);
         usersRepository.saveAndFlush(user);
         User temp = usersRepository.findUserByFirstname(user.getFirstname());
-        temp.getAuthHistory().add(new AuthHistory(user, "register", new Date().toString(), address));
+        temp.getAuthHistory().add(new AuthHistory(user, "0", new Date().toString(), address));
         usersRepository.saveAndFlush(temp);
         return true;
     }

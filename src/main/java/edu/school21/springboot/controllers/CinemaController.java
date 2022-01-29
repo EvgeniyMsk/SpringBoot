@@ -38,7 +38,7 @@ public class CinemaController {
         }
         catch (Exception e) {
             session.setAttribute("isAddedSession", true);
-            cinemaUser.getAuthHistory().add(new AuthHistory(cinemaUser, "Авторизация", new Date().toString(), request.getRemoteAddr()));
+            cinemaUser.getAuthHistory().add(new AuthHistory(cinemaUser, "1", new Date().toString(), request.getRemoteAddr()));
             userService.updateUser(cinemaUser);
         }
         model.addAttribute("user", userService.getUserByFirstname(request.getUserPrincipal().getName()));
