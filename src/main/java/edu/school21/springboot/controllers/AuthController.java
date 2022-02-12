@@ -32,14 +32,25 @@ public class AuthController {
 
 
     @PostMapping("/signUp")
-    public String signUp(@ModelAttribute("user") @Valid User user, BindingResult bindingResult, HttpServletRequest request) {
+    public String signUp(@ModelAttribute("user") @Valid User user,
+                         BindingResult bindingResult,
+                         HttpServletRequest request,
+                         Model model) {
         if (bindingResult.hasErrors())
             return "auth/register";
         else {
-            if (userService.createUser(user, request.getRemoteAddr()))
-                return "redirect:/profile";
-            else
-                return "redirect:/register";
+            try {
+                if (userService.createUser(user, request.getRemoteAddr()))
+                {
+                    model.addAttribute("regMessage", "1");
+                    return "auth/login";
+                }
+                else
+                    return "redirect:/register";
+            } catch (Exception e) {
+                model.addAttribute("regMessage", "0");
+                return "auth/register";
+            }
         }
     }
 

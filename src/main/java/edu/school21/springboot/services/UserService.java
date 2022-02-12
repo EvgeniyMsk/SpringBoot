@@ -5,6 +5,7 @@ import edu.school21.springboot.models.User;
 import edu.school21.springboot.models.roles.ERole;
 import edu.school21.springboot.repositories.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -14,6 +15,9 @@ import java.util.*;
 
 @Service
 public class UserService implements UserDetailsService {
+    @Value("${ipAddress}")
+    private String serverAddress;
+
     private final UsersRepository usersRepository;
     @Autowired
     private MailSender mailSender;
@@ -42,7 +46,7 @@ public class UserService implements UserDetailsService {
         String message = String.format(
                 "Hello, %s! \n" +
                         "Welcome to SpringBoot-School21 portal! Please visit next link: \n" +
-                        "http://localhost:8080/confirm/%s", user.getUsername(), user.getActivationCode()
+                        "http://" + serverAddress + ":8080/confirm/%s", user.getUsername(), user.getActivationCode()
         );
         mailSender.send(user.getEmail(), "Activation code", message);
         usersRepository.saveAndFlush(user);
