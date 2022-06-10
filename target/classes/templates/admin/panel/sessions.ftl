@@ -4,7 +4,7 @@
 <a href="/"><@spring.messageText "toMainPage" "To main page"></@spring.messageText></a>
 <div>
     <main>
-        <div class="tester">
+        <div class="tester" style="width: 70%; margin: auto">
             <div class="cinemaSessions">
                 <h1 class="main"><@spring.messageText "sessions" "Cinema sessions"></@spring.messageText></h1>
                 <table border="3">
